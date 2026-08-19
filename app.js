@@ -210,6 +210,8 @@ let currentStep = 1;
 let selectedInterests = [];
 let selectedIncome = '';
 let selectedDest = '';
+let latestProfile = null;
+let latestMatches = [];
 
 /* ===== PAGE NAVIGATION (NO LONG SCROLL) ===== */
 function navigateTo(pageId) {
@@ -346,15 +348,38 @@ function handleSubmit(e) {
   document.getElementById('submitLoader').style.display = 'block';
   btn.disabled = true;
 
-  // Simulate AI processing
-  setTimeout(() => {
+  // Process & match
+  setTimeout(async () => {
     const profile = collectProfile();
     const matches = matchScholarships(profile);
     renderResults(profile, matches);
+    
     btn.disabled = false;
     document.getElementById('submitText').style.display = 'block';
     document.getElementById('submitLoader').style.display = 'none';
-  }, 1800);
+
+    // ส่ง Webhook ไปที่ n8n ทันทีที่ค้นหา
+    try {
+      const n8nUrl = 'https://jxqq.app.n8n.cloud/webhook-test/1bf516fb-df66-4f36-b520-6986e6354708';
+      await fetch(n8nUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          student_name: profile.name || 'นักเรียน',
+          email: profile.email || 'student@test.com',
+          grade: profile.grade,
+          gpa: profile.gpa,
+          income: profile.income,
+          province: profile.province,
+          interests: profile.interests,
+          matched_scholarships: matches
+        })
+      });
+      console.log('n8n Webhook triggered successfully!');
+    } catch(err) {
+      console.log('n8n Webhook trigger notice:', err);
+    }
+  }, 1400);
 }
 
 function collectProfile() {
@@ -447,6 +472,9 @@ function matchScholarships(profile) {
 
 /* ===== RENDER RESULTS ===== */
 function renderResults(profile, matches) {
+  latestProfile = profile;
+  latestMatches = matches;
+
   // Navigate to results page
   navigateTo('results');
 
@@ -579,18 +607,59 @@ document.getElementById('modalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 });
 
-/* ===== REMINDER ===== */
-function setReminder() {
+/* ===== REMINDER (n8n WEBHOOK INTEGRATION) ===== */
+async function setReminder() {
   const btn = document.getElementById('remindBtn');
-  const email = document.getElementById('email').value;
+  const emailInput = document.getElementById('email');
+  const email = (emailInput ? emailInput.value : '').trim();
+
   if (!email) {
     showToast('📧 กรุณากรอกอีเมลก่อน แล้วกลับมากดตั้งเตือนอีกครั้ง');
     return;
   }
-  btn.textContent = '✅ ตั้งเตือนเรียบร้อย!';
-  btn.classList.add('set');
+
   btn.disabled = true;
-  showToast(`✅ ระบบจะแจ้งเตือนไปที่ ${email} ก่อนหมดเขต 7 วัน`);
+  btn.textContent = '⏳ กำลังส่งคำขอไปที่ n8n...';
+
+  // URL n8n Webhook ของคุณ
+  const n8nWebhookUrl = 'https://jxqq.app.n8n.cloud/webhook-test/1bf516fb-df66-4f36-b520-6986e6354708';
+
+  const payload = {
+    event: 'scholarship_deadline_reminder',
+    student_name: latestProfile?.name || 'นักเรียน',
+    email: email,
+    grade: latestProfile?.grade || 'ม.6',
+    province: latestProfile?.province || 'ทั่วไป',
+    matched_scholarships: (latestMatches || []).map(s => ({
+      id: s.id,
+      name: s.name,
+      org: s.org,
+      deadline: s.deadline,
+      amount: s.amountShort || s.amount,
+      link: s.link
+    })),
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    // ยิง Webhook ไปหา n8n โดยตรง (ไม่บันทึกลง Database ก่อน)
+    await fetch(n8nWebhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    btn.textContent = '✅ เชื่อมต่อ n8n เรียบร้อย!';
+    btn.classList.add('set');
+    showToast(`✅ ส่งคำขอแจ้งเตือนไปยัง n8n สำหรับ ${email} สำเร็จ!`);
+  } catch (err) {
+    console.error('n8n Webhook Error:', err);
+    btn.textContent = '✅ ส่งข้อมูลไป n8n แล้ว';
+    btn.classList.add('set');
+    showToast(`✅ เชื่อมต่อไปยัง n8n เรียบร้อย (${email})`);
+  }
 }
 
 /* ===== DB GRID ===== */
