@@ -629,5 +629,218 @@ function showToast(msg) {
 
 /* ===== KEYBOARD ===== */
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Escape') {
+    closeModal();
+    const chatWin = document.getElementById('chatWindow');
+    if (chatWin && chatWin.style.display !== 'none') {
+      toggleChat();
+    }
+  }
 });
+
+/* ===== AI SCHOLARSHIP CHAT ADVISOR ===== */
+let isChatOpen = false;
+let isBotTyping = false;
+
+function toggleChat() {
+  const win = document.getElementById('chatWindow');
+  const fab = document.getElementById('chatFab');
+  isChatOpen = !isChatOpen;
+  
+  if (isChatOpen) {
+    win.style.display = 'flex';
+    if (fab) fab.style.transform = 'scale(0.92)';
+    setTimeout(() => {
+      document.getElementById('chatInput')?.focus();
+      scrollChatToBottom();
+    }, 150);
+  } else {
+    win.style.display = 'none';
+    if (fab) fab.style.transform = '';
+  }
+}
+
+function askQuickPrompt(text) {
+  document.getElementById('chatInput').value = text;
+  handleSendChat(new Event('submit'));
+}
+
+function handleSendChat(e) {
+  if (e) e.preventDefault();
+  if (isBotTyping) return;
+
+  const input = document.getElementById('chatInput');
+  const query = input.value.trim();
+  if (!query) return;
+
+  // Add User Message
+  appendChatMessage(query, 'user');
+  input.value = '';
+
+  // Hide quick chips after first question
+  const chips = document.getElementById('quickPromptsWrap');
+  if (chips) chips.style.display = 'none';
+
+  // Show Bot Typing indicator
+  isBotTyping = true;
+  showTypingIndicator();
+
+  // Process AI response with a slight natural delay (800ms)
+  setTimeout(() => {
+    removeTypingIndicator();
+    const reply = generateScholarshipAIResponse(query);
+    appendChatMessage(reply, 'bot');
+    isBotTyping = false;
+    scrollChatToBottom();
+  }, 850);
+}
+
+function appendChatMessage(htmlText, sender) {
+  const chatBody = document.getElementById('chatBody');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `chat-msg ${sender}`;
+
+  if (sender === 'bot') {
+    msgDiv.innerHTML = `
+      <div class="msg-avatar">🤖</div>
+      <div class="msg-bubble">${htmlText}</div>
+    `;
+  } else {
+    msgDiv.innerHTML = `
+      <div class="msg-bubble">${escapeHtml(htmlText)}</div>
+    `;
+  }
+
+  chatBody.appendChild(msgDiv);
+  scrollChatToBottom();
+}
+
+function showTypingIndicator() {
+  const chatBody = document.getElementById('chatBody');
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'chat-msg bot typing-msg';
+  typingDiv.id = 'botTyping';
+  typingDiv.innerHTML = `
+    <div class="msg-avatar">🤖</div>
+    <div class="msg-bubble typing-bubble">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+  `;
+  chatBody.appendChild(typingDiv);
+  scrollChatToBottom();
+}
+
+function removeTypingIndicator() {
+  const el = document.getElementById('botTyping');
+  if (el) el.remove();
+}
+
+function scrollChatToBottom() {
+  const chatBody = document.getElementById('chatBody');
+  if (chatBody) {
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+/* ===== STRICT SCHOLARSHIP AI KNOWLEDGE ENGINE ===== */
+function generateScholarshipAIResponse(input) {
+  const text = input.toLowerCase();
+
+  // 1. Guardrail: Detect off-topic queries (sports, weather, gaming, cooking, casual non-education chat)
+  const offTopicKeywords = [
+    'อากาศ', 'ฝนตก', 'กินข้าว', 'หวย', 'บอล', 'เล่นเกม', 'ดารา', 'เที่ยว', 'หนัง',
+    'ทำกับข้าว', 'เพลง', 'ความรัก', 'แฟน', 'การเมือง', 'เลือกตั้ง', 'รถติด', 'ขอยืมเงิน'
+  ];
+  const isOffTopic = offTopicKeywords.some(w => text.includes(w)) && !text.includes('ทุน') && !text.includes('เรียน') && !text.includes('เกรด');
+  
+  if (isOffTopic) {
+    return `ขออภัยครับ 🙏 ผมถูกออกแบบมาเพื่อเป็น <strong>AI ผู้เชี่ยวชาญด้านทุนการศึกษาและการศึกษาต่อโดยเฉพาะ</strong> จึงไม่สามารถให้ข้อมูลในเรื่องอื่นได้ครับ<br/><br/>หากคุณมีคำถามเกี่ยวกับ <strong>เงื่อนไขทุน, เกรดเฉลี่ยขั้นต่ำ, โควตาเรียนฟรี หรือเอกสารสมัคร</strong> สามารถสอบถามผมได้เลยครับ! 🎓`;
+  }
+
+  // 2. Query about กสศ. (EEF)
+  if (text.includes('กสศ') || text.includes('เสมอภาค') || text.includes('ยากจนพิเศษ')) {
+    return `🏛️ <strong>ทุนเสมอภาค กสศ. (กองทุนเพื่อความเสมอภาคทางการศึกษา):</strong><br/><br/>
+    • <strong>ระดับที่เปิดรับ:</strong> นักเรียน ม.6 หรือ ปวช. ที่กำลังจะเข้ามหาวิทยาลัย<br/>
+    • <strong>เกณฑ์รายได้:</strong> ครอบครัวมีรายได้เฉลี่ยไม่เกิน <strong>100,000 บาท/ปี</strong> (พิจารณาเกณฑ์ยากจนพิเศษเป็นอันดับแรก)<br/>
+    • <strong>เกรดเฉลี่ย (GPA):</strong> ขั้นต่ำ <strong>2.00</strong> ขึ้นไป<br/>
+    • <strong>สิทธิประโยชน์:</strong> จ่ายค่าเล่าเรียนเต็มจำนวน + เงินทุนดำรงชีพรายเดือน 36,000–60,000 บาท/ปี<br/>
+    • <strong>เอกสารสำคัญ:</strong> หนังสือรับรองรายได้ครอบครัว, Transcript 4 เทอม, เรียงความเป้าหมาย`;
+  }
+
+  // 3. Query about Southern border quotas / ม.อ. / PSU
+  if (text.includes('ม.อ') || text.includes('สงขลานครินทร์') || text.includes('ชายแดนใต้') || text.includes('ปัตตานี') || text.includes('ยะลา') || text.includes('นราธิวาส')) {
+    return `🌙 <strong>โควตาพื้นที่จังหวัดชายแดนใต้ (ม.อ. / มหาวิทยาลัยสงขลานครินทร์):</strong><br/><br/>
+    • <strong>พื้นที่เป้าหมาย:</strong> ปัตตานี, ยะลา, นราธิวาส, สตูล และ 4 อำเภอของสงขลา<br/>
+    • <strong>เกณฑ์ GPA:</strong> เริ่มต้นที่ <strong>2.50</strong> ขึ้นไป (ขึ้นอยู่กับแต่ละคณะ เช่น สายแพทย์/วิทยาศาสตร์สุขภาพ อาจต้องการ GPA 3.00+)<br/>
+    • <strong>จุดเด่น:</strong> มีสิทธิ์สอบคัดเลือกในโควตาเฉพาะพื้นที่ ไม่ต้องแข่งขันกับทั่วประเทศ พร้อมสิทธิลดหย่อนค่าเล่าเรียนและทุนดำรงชีพ`;
+  }
+
+  // 4. Query about Malaysia MARA / Foreign scholarships
+  if (text.includes('มาเลเซีย') || text.includes('mara') || text.includes('ต่างประเทศ') || text.includes('นอกประเทศ')) {
+    return `🌏 <strong>ทุนรัฐบาลมาเลเซีย (MARA Scholarship):</strong><br/><br/>
+    • <strong>กลุ่มเป้าหมาย:</strong> นักเรียนไทยมุสลิมในพื้นที่จังหวัดชายแดนภาคใต้<br/>
+    • <strong>เกณฑ์ GPA:</strong> <strong>3.00 ขึ้นไป</strong> ในระดับ ม.ปลาย (ม.6)<br/>
+    • <strong>ความคุ้มครอง:</strong> ทุนเต็มจำนวน (Full Scholarship) ฟรีค่าเล่าเรียน, ค่าหอพัก, ตั๋วเครื่องบิน และเงินเดือนค่าครองชีพ<br/>
+    • <strong>สิ่งที่ต้องเตรียม:</strong> หนังสือเดินทาง (Passport), Statement of Purpose (ภาษาอังกฤษ) และทักษะภาษาอังกฤษ/มลายูพื้นฐาน`;
+  }
+
+  // 5. Query about M.3 / Vocational / เรียนฟรี 15 ปี
+  if (text.includes('ม.3') || text.includes('อาชีวะ') || text.includes('ปวช') || text.includes('ช่าง') || text.includes('เรียนฟรี')) {
+    return `🔧 <strong>โครงการเรียนฟรีอาชีวะ 15 ปี (สำหรับผู้จบ ม.3):</strong><br/><br/>
+    • <strong>คุณสมบัติ:</strong> สำเร็จการศึกษาชั้น ม.3 ด้วย GPA ขั้นต่ำ <strong>1.50</strong><br/>
+    • <strong>สิทธิประโยชน์:</strong> เรียนฟรีระดับ ปวช. 3 ปีเต็ม รัฐสนับสนุนค่าเล่าเรียน ค่าอุปกรณ์ และหนังสือเรียนทั้งหมด<br/>
+    • <strong>สาขายอดนิยม:</strong> ช่างยนต์, ช่างไฟฟ้า, คอมพิวเตอร์ธุรกิจ, การบัญชี, คหกรรมศาสตร์ และเกษตรกรรม`;
+  }
+
+  // 6. Query about Documents needed
+  if (text.includes('เอกสาร') || text.includes('เตรียมตัว') || text.includes('หลักฐาน') || text.includes('ใช้อะไรบ้าง')) {
+    return `📋 <strong>เอกสารพื้นฐานที่ต้องเตรียมสำหรับสมัครทุนการศึกษา:</strong><br/><br/>
+    1. <strong>ใบแสดงผลการเรียน (รบ.1 / Transcript)</strong> ย้อนหลัง 4–5 ภาคเรียน<br/>
+    2. <strong>สำเนาบัตรประชาชน + สำเนาทะเบียนบ้าน</strong> (ของนักเรียนและผู้ปกครอง)<br/>
+    3. <strong>หนังสือรับรองรายได้ครอบครัว</strong> (รับรองโดยกำนัน/ผู้ใหญ่บ้าน/ข้าราชการ)<br/>
+    4. <strong>หนังสือรับรองสถานภาพนักเรียน</strong> จากโรงเรียนเดิม<br/>
+    5. <strong>รูปถ่าย 1-1.5 นิ้ว</strong> หน้าตรงชุดนักเรียน (ถ่ายไม่เกิน 6 เดือน)<br/>
+    6. <strong>บัตรสวัสดิการแห่งรัฐ</strong> (ถ้ามี จะช่วยเพิ่มน้ำหนักการพิจารณา)`;
+  }
+
+  // 7. Query about GPA / เกรดเฉลี่ย
+  if (text.includes('gpa') || text.includes('เกรด') || text.includes('เกรดน้อย') || text.includes('เกรดต่ำ')) {
+    return `📊 <strong>เรื่องเกรดเฉลี่ย (GPA) กับโอกาสได้รับทุน:</strong><br/><br/>
+    • <strong>GPA 1.50 – 2.00:</strong> แนะนำทุนสายอาชีวะ (ปวช.) เรียนฟรี 15 ปี<br/>
+    • <strong>GPA 2.00 – 2.49:</strong> มีสิทธิ์สมัครทุนเสมอภาค กสศ. และทุนมหาวิทยาลัยราชภัฏ (มรย./มรน.)<br/>
+    • <strong>GPA 2.50 – 2.99:</strong> มีสิทธิ์สมัครโควตาพื้นที่ชายแดนใต้ ม.อ. และทุนมหาวิทยาลัยรัฐทั่วไป<br/>
+    • <strong>GPA 3.00 – 4.00:</strong> เปิดกว้างทุกทุน รวมถึงทุนต่างประเทศ เช่น MARA มาเลเซีย และทุนวิทยาศาสตร์-เทคโนโลยี 4 ปี`;
+  }
+
+  // 8. Query about YRU / มรย. / Rajabhat
+  if (text.includes('มรย') || text.includes('ราชภัฏ') || text.includes('ครู')) {
+    return `📚 <strong>ทุนมหาวิทยาลัยราชภัฏยะลา (มรย.) เพื่อเยาวชนท้องถิ่น:</strong><br/><br/>
+    • <strong>เกณฑ์ GPA:</strong> 2.00 ขึ้นไป<br/>
+    • <strong>จุดเด่น:</strong> ลดค่าเทอม 50% พร้อมสิทธิ์เข้าร่วมโครงการทำงานพิเศษ (Work & Study) ในมหาวิทยาลัย มีรายได้เสริมระหว่างเรียน<br/>
+    • เหมาะมากสำหรับผู้สนใจสายครุศาสตร์ (ครู), บริหารธุรกิจ, วิทยาศาสตร์ และภาษาเพื่อการสื่อสาร`;
+  }
+
+  // 9. Query about How matching works / System info
+  if (text.includes('ระบบ') || text.includes('ทำงานยังไง') || text.includes('จับคู่ยังไง') || text.includes('n8n')) {
+    return `🤖 <strong>การทำงานของระบบ ScholarPath:</strong><br/><br/>
+    ระบบจะนำข้อมูลที่คุณกรอก 3 ด้าน (เกรดเฉลี่ย, รายได้ครอบครัว, สาขาและพื้นที่เป้าหมาย) ส่งผ่าน <strong>n8n Automation</strong> เข้าสู่กระบวนการวิเคราะห์จับคู่กับฐานข้อมูลทุนจริง เพื่อเลือก 3 ทุนที่มีคะแนนตรงกับคุณสมบัติและมีโอกาสได้รับสูงสุดครับ! 🎯`;
+  }
+
+  // 10. General / Fallback Education Response
+  return `🎓 <strong>ยินดีให้คำปรึกษาครับ!</strong><br/><br/>
+  ผมสามารถให้ข้อมูลเจาะลึกได้ในเรื่องต่อไปนี้:<br/>
+  • <strong>เกณฑ์ทุน กสศ.</strong> สำหรับครอบครัวรายได้น้อย<br/>
+  • <strong>โควตา ม.อ. ชายแดนใต้</strong> และสิทธิพิเศษคนในพื้นที่<br/>
+  • <strong>ทุนไปเรียนต่อต่างประเทศ</strong> เช่น ทุน MARA มาเลเซีย<br/>
+  • <strong>ทุนเรียนฟรีสายอาชีวะ (ปวช.)</strong> สำหรับคนจบ ม.3<br/>
+  • <strong>เช็กลิสต์เอกสารที่ต้องใช้สมัคร</strong><br/><br/>
+  ลองพิมพ์คำถามหรือคลิกที่ปุ่มคำถามแนะนำได้เลยครับ! 😊`;
+}
