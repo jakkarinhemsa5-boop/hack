@@ -205,16 +205,54 @@ const SCHOLARSHIPS = [
 ];
 
 /* ===== STATE ===== */
+let currentPage = 'home';
 let currentStep = 1;
 let selectedInterests = [];
 let selectedIncome = '';
 let selectedDest = '';
+
+/* ===== PAGE NAVIGATION (NO LONG SCROLL) ===== */
+function navigateTo(pageId) {
+  currentPage = pageId;
+  
+  // Hide all page views
+  document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+  
+  // Show target page view
+  const target = document.getElementById(`page-${pageId}`);
+  if (target) {
+    target.classList.add('active');
+  }
+
+  // Update navbar items
+  document.querySelectorAll('.nav-links .nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  const activeNav = document.getElementById(`nav-${pageId}`);
+  if (activeNav) {
+    activeNav.classList.add('active');
+  }
+
+  // Scroll to top of window for fresh page feel
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Update URL hash without jump
+  history.replaceState(null, '', `#${pageId}`);
+}
 
 /* ===== INIT ===== */
 document.addEventListener('DOMContentLoaded', () => {
   renderDBGrid();
   setupGPABar();
   document.getElementById('scholarForm').addEventListener('submit', handleSubmit);
+
+  // Check initial hash
+  const initialHash = window.location.hash.replace('#', '');
+  if (['home', 'how', 'finder', 'results', 'database'].includes(initialHash)) {
+    navigateTo(initialHash);
+  } else {
+    navigateTo('home');
+  }
 });
 
 function setupGPABar() {
@@ -409,18 +447,15 @@ function matchScholarships(profile) {
 
 /* ===== RENDER RESULTS ===== */
 function renderResults(profile, matches) {
-  // Scroll & show
-  document.getElementById('results').style.display = 'block';
-  setTimeout(() => {
-    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  // Navigate to results page
+  navigateTo('results');
 
   // Header
   const nameDisplay = profile.name ? ` <span class="accent">${profile.name}</span>` : ' <span class="accent">คุณ</span>';
   document.getElementById('resultName').outerHTML = nameDisplay;
   document.getElementById('resultSummary').textContent =
     matches.length > 0
-      ? `AI วิเคราะห์พบ ${matches.length} ทุนที่เหมาะสมที่สุดสำหรับคุณ จากฐานข้อมูลทุนกว่า ${SCHOLARSHIPS.length} รายการ`
+      ? `ระบบประมวลผลพบ ${matches.length} ทุนที่มีโอกาสได้สูงสุดสำหรับคุณ จากฐานข้อมูลทุนทั้งหมด`
       : 'ไม่พบทุนที่ตรงกับคุณสมบัติปัจจุบัน ลองปรับข้อมูลแล้วค้นหาใหม่';
 
   // Cards
@@ -572,7 +607,6 @@ function renderDBGrid() {
 
 /* ===== RESTART ===== */
 function restart() {
-  document.getElementById('results').style.display = 'none';
   document.getElementById('scholarForm').reset();
   selectedInterests = [];
   selectedIncome = '';
@@ -582,7 +616,7 @@ function restart() {
   document.querySelectorAll('.dest-opt.selected').forEach(e => e.classList.remove('selected'));
   document.getElementById('gpaBar').style.width = '0%';
   goToStep(1);
-  document.getElementById('finder').scrollIntoView({ behavior: 'smooth' });
+  navigateTo('finder');
 }
 
 /* ===== TOAST ===== */
