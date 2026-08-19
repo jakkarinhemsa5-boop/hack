@@ -23,6 +23,7 @@
       <a href="javascript:void(0)" class="nav-item active" id="nav-home" onclick="navigateTo('home')">หน้าแรก</a>
       <a href="javascript:void(0)" class="nav-item" id="nav-how" onclick="navigateTo('how')">วิธีใช้งาน</a>
       <a href="javascript:void(0)" class="nav-item" id="nav-database" onclick="navigateTo('database')">ฐานข้อมูลทุน</a>
+      <a href="javascript:void(0)" class="nav-item nav-ai-chat" onclick="toggleChat()"><span class="ai-spark">✨</span> คุยกับ AI</a>
       <a href="javascript:void(0)" class="btn-nav" onclick="navigateTo('finder')">ค้นหาทุน ›</a>
     </nav>
   </div>
@@ -41,8 +42,11 @@
       </div>
       <div class="hero-content">
         <div class="hero-badge">🌟 ฟรี · ไม่มีค่าใช้จ่าย</div>
-        <h1>ค้นหาทุนการศึกษา<br/><span class="gradient-text">ที่ใช่สำหรับคุณ</span></h1>
-        <p class="hero-sub">ระบบจับคู่ทุนการศึกษาและโควตาเรียนฟรีอัตโนมัติด้วย AI พร้อมร่างเช็กลิสต์เอกสาร และตั้งเวลาแจ้งเตือนก่อนปิดรับสมัคร</p>
+        <h1 class="hero-title">
+          <span class="hero-line1">ค้นหาทุนการศึกษา</span>
+          <span class="gradient-text hero-line2">ที่ใช่สำหรับคุณ</span>
+        </h1>
+        <p class="hero-sub">ระบบจับคู่ทุนการศึกษาและโควตาเรียนฟรีอัตโนมัติด้วย AI<br/>พร้อมร่างเช็กลิสต์เอกสาร และตั้งเวลาแจ้งเตือนก่อนปิดรับสมัคร</p>
         <div class="hero-cta-group">
           <button class="btn-hero" onclick="navigateTo('finder')">เริ่มค้นหาทุนเลย →</button>
           <button class="btn-hero-outline" onclick="navigateTo('how')">ดูวิธีใช้งาน 📖</button>
@@ -357,6 +361,61 @@
   <div class="modal" id="modalBox">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ===== AI CHAT FLOATING BUTTON ===== -->
+<div class="chat-float-wrapper">
+  <button class="chat-fab" id="chatFab" onclick="toggleChat()" title="ปรึกษา AI ทุนการศึกษา">
+    <span class="chat-fab-icon">🤖</span>
+    <span class="chat-fab-text">ถาม AI ทุนการศึกษา</span>
+    <span class="chat-fab-badge">AI 24h</span>
+  </button>
+</div>
+
+<!-- ===== AI CHAT WINDOW ===== -->
+<div class="chat-window" id="chatWindow" style="display:none;">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">🤖</div>
+      <div>
+        <div class="chat-name">ScholarBot · ผู้ช่วยทุนการศึกษา</div>
+        <div class="chat-status"><span class="status-dot"></span> พร้อมตอบคำถามเรื่องทุน 24 ชม.</div>
+      </div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()" title="ปิดหน้าต่างแชท">✕</button>
+  </div>
+
+  <div class="chat-body" id="chatBody">
+    <div class="chat-msg bot">
+      <div class="msg-avatar">🤖</div>
+      <div class="msg-bubble">
+        สวัสดีครับ! 👋 ผมคือ <strong>AI ผู้ช่วยให้คำปรึกษาด้านทุนการศึกษา</strong><br/>
+        มีข้อสงสัยเรื่องเงื่อนไขทุน, เกรดเฉลี่ย (GPA), โควตาพื้นที่ หรือเอกสารที่ต้องใช้ พิมพ์ถามผมได้ตลอดเวลาเลยครับ! 🎓
+      </div>
+    </div>
+    
+    <!-- Quick Suggestion Prompts -->
+    <div class="quick-prompts-wrap" id="quickPromptsWrap">
+      <div class="quick-prompts-title">💡 คำถามยอดนิยม (คลิกเพื่อถาม):</div>
+      <div class="quick-chips">
+        <button type="button" class="chip" onclick="askQuickPrompt('ทุน กสศ. มีเงื่อนไขและเกณฑ์รายได้เท่าไหร่?')">ทุน กสศ. เกณฑ์รายได้เท่าไหร่?</button>
+        <button type="button" class="chip" onclick="askQuickPrompt('โควตา ม.อ. ชายแดนใต้ สมัครยังไง ต้องใช้ GPA เท่าไหร่?')">โควตา ม.อ. ชายแดนใต้</button>
+        <button type="button" class="chip" onclick="askQuickPrompt('ทุนรัฐบาลมาเลเซีย MARA คุณสมบัติเป็นยังไง?')">ทุนไปเรียนมาเลเซีย MARA</button>
+        <button type="button" class="chip" onclick="askQuickPrompt('จบ ม.3 ฐานะยากจน มีทุนหรือโควตาเรียนฟรีอะไรบ้าง?')">จบ ม.3 ทุนเรียนต่อฟรี</button>
+        <button type="button" class="chip" onclick="askQuickPrompt('สมัครทุนการศึกษาทั่วไป ต้องเตรียมเอกสารอะไรบ้าง?')">เอกสารที่ต้องเตรียม</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <form id="chatForm" onsubmit="handleSendChat(event)">
+      <input type="text" id="chatInput" placeholder="พิมพ์คำถามเกี่ยวกับทุนการศึกษา..." autocomplete="off" />
+      <button type="submit" class="btn-send-chat" id="btnSendChat" title="ส่งคำถาม">
+        <span>➤</span>
+      </button>
+    </form>
+    <div class="chat-disclaimer">⚡ ตอบเฉพาะข้อมูลทุนการศึกษาและโควตาเรียนฟรี</div>
   </div>
 </div>
 
