@@ -11,309 +11,337 @@
 </head>
 <body>
 
-<!-- ===== HERO / NAVBAR ===== -->
+
+
+<!-- ===== NAVBAR ===== -->
 <header class="navbar">
   <div class="nav-inner">
-    <div class="logo">
-      <span class="logo-icon">🎓</span>
+    <div class="logo" onclick="navigateTo('home')">
       <span class="logo-text">Scholar<span class="accent">Path</span></span>
     </div>
     <nav class="nav-links">
-      <a href="#how">วิธีใช้งาน</a>
-      <a href="#scholarships">ฐานข้อมูลทุน</a>
-      <a href="#finder" class="btn-nav">ค้นหาทุน ›</a>
+      <a href="javascript:void(0)" class="nav-item active" id="nav-home" onclick="navigateTo('home')">หน้าแรก</a>
+      <a href="javascript:void(0)" class="nav-item" id="nav-how" onclick="navigateTo('how')">วิธีใช้งาน</a>
+      <a href="javascript:void(0)" class="nav-item" id="nav-database" onclick="navigateTo('database')">ฐานข้อมูลทุน</a>
+      <a href="javascript:void(0)" class="btn-nav" onclick="navigateTo('finder')">ค้นหาทุน ›</a>
     </nav>
   </div>
 </header>
 
-<!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="hero-bg">
-    <div class="hero-circle c1"></div>
-    <div class="hero-circle c2"></div>
-    <div class="hero-circle c3"></div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-badge">🌟 ฟรี · ไม่มีค่าใช้จ่าย</div>
-    <h1>ค้นหาทุนการศึกษา<br/><span class="gradient-text">ที่ใช่สำหรับคุณ</span></h1>
-    <p class="hero-sub">กรอกข้อมูลง่ายๆ เพียง 3 ขั้นตอน ระบบ AI จะจับคู่ทุนการศึกษาที่เหมาะสมที่สุดให้คุณทันที พร้อมเช็กลิสต์เอกสารและการแจ้งเตือนก่อนหมดเขต</p>
-    <a href="#finder" class="btn-hero">เริ่มค้นหาทุนเลย →</a>
-    <div class="hero-stats">
-      <div class="stat"><span class="stat-n">50+</span><span class="stat-l">ทุนในฐานข้อมูล</span></div>
-      <div class="stat-div"></div>
-      <div class="stat"><span class="stat-n">3 นาที</span><span class="stat-l">ใช้เวลาค้นหา</span></div>
-      <div class="stat-div"></div>
-      <div class="stat"><span class="stat-n">ฟรี 100%</span><span class="stat-l">ไม่มีค่าใช้จ่าย</span></div>
-    </div>
-  </div>
-  <div class="hero-illustration">
-    <div class="book-stack">
-      <div class="book b1">📘</div>
-      <div class="book b2">📗</div>
-      <div class="book b3">📙</div>
-    </div>
-    <div class="floating-badge fb1">✅ ได้รับทุน กสศ.</div>
-    <div class="floating-badge fb2">🎉 โควตาชายแดนใต้</div>
-    <div class="floating-badge fb3">🌏 ทุนมาเลเซีย</div>
-  </div>
-</section>
+<!-- ===== MAIN CONTAINER FOR PAGES ===== -->
+<main class="main-container">
 
-<!-- ===== HOW IT WORKS ===== -->
-<section class="how" id="how">
-  <div class="section-inner">
-    <div class="section-label">วิธีใช้งาน</div>
-    <h2>3 ขั้นตอนง่ายๆ สู่ทุนการศึกษา</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-icon">📝</div>
-        <div class="step-num">01</div>
-        <h3>กรอกข้อมูลตัวเอง</h3>
-        <p>ระดับชั้น เกรดเฉลี่ย รายได้ครอบครัว และสาขาที่สนใจ ใช้เวลาไม่เกิน 3 นาที</p>
+  <!-- PAGE 1: HOME -->
+  <div class="page-view active" id="page-home">
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="hero-circle c1"></div>
+        <div class="hero-circle c2"></div>
+        <div class="hero-circle c3"></div>
       </div>
-      <div class="step-arrow">→</div>
-      <div class="step">
-        <div class="step-icon">🤖</div>
-        <div class="step-num">02</div>
-        <h3>AI วิเคราะห์จับคู่</h3>
-        <p>ระบบเปรียบเทียบคุณสมบัติกับเงื่อนไขของทุนกว่า 50 รายการ คัดเลือก 3 ทุนที่เหมาะสมที่สุด</p>
-      </div>
-      <div class="step-arrow">→</div>
-      <div class="step">
-        <div class="step-icon">🚀</div>
-        <div class="step-num">03</div>
-        <h3>รับแผนสมัครทันที</h3>
-        <p>ดูเอกสารที่ต้องเตรียม กดสมัครได้เลย พร้อมแจ้งเตือนก่อนหมดเขต 7 วัน</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FINDER FORM ===== -->
-<section class="finder" id="finder">
-  <div class="section-inner">
-    <div class="section-label">เริ่มค้นหาทุน</div>
-    <h2>กรอกข้อมูลของคุณ</h2>
-    <p class="finder-sub">ข้อมูลของคุณจะถูกเก็บเป็นความลับ และใช้เพื่อจับคู่ทุนที่เหมาะสมเท่านั้น</p>
-
-    <form class="finder-form" id="scholarForm">
-      <!-- STEP 1 -->
-      <div class="form-step active" data-step="1">
-        <div class="step-header">
-          <div class="step-pill">ขั้นที่ 1 จาก 3 — ข้อมูลการศึกษา</div>
+      <div class="hero-content">
+        <div class="hero-badge">🌟 ฟรี · ไม่มีค่าใช้จ่าย</div>
+        <h1>ค้นหาทุนการศึกษา<br/><span class="gradient-text">ที่ใช่สำหรับคุณ</span></h1>
+        <p class="hero-sub">ระบบจับคู่ทุนการศึกษาและโควตาเรียนฟรีอัตโนมัติด้วย AI พร้อมร่างเช็กลิสต์เอกสาร และตั้งเวลาแจ้งเตือนก่อนปิดรับสมัคร</p>
+        <div class="hero-cta-group">
+          <button class="btn-hero" onclick="navigateTo('finder')">เริ่มค้นหาทุนเลย →</button>
+          <button class="btn-hero-outline" onclick="navigateTo('how')">ดูวิธีใช้งาน 📖</button>
         </div>
-        <div class="form-grid">
-          <div class="form-group full">
-            <label>ชื่อ (ไม่บังคับ)</label>
-            <input type="text" id="name" placeholder="เช่น สมหวัง ใจดี" />
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-n">50+</span><span class="stat-l">ทุนในฐานข้อมูล</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-n">3 นาที</span><span class="stat-l">ใช้เวลาค้นหา</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-n">ฟรี 100%</span><span class="stat-l">ไม่มีค่าใช้จ่าย</span></div>
+        </div>
+      </div>
+      <div class="hero-illustration">
+        <div class="book-stack">
+          <div class="book b1">📘</div>
+          <div class="book b2">📗</div>
+          <div class="book b3">📙</div>
+        </div>
+        <div class="floating-badge fb1">✅ ได้รับทุน กสศ.</div>
+        <div class="floating-badge fb2">🎉 โควตาชายแดนใต้</div>
+        <div class="floating-badge fb3">🌏 ทุนมาเลเซีย</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PAGE 2: HOW IT WORKS -->
+  <div class="page-view" id="page-how">
+    <section class="how">
+      <div class="section-inner">
+        <div class="section-label">วิธีใช้งาน</div>
+        <h2>3 ขั้นตอนง่ายๆ สู่ทุนการศึกษา</h2>
+        <p class="section-desc">ระบบถูกออกแบบมาให้นักเรียนใช้งานง่ายที่สุด เพื่อไม่ให้ใครต้องหลุดออกจากระบบการศึกษา</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-icon">📝</div>
+            <div class="step-num">01</div>
+            <h3>กรอกข้อมูลตัวเอง</h3>
+            <p>ระบุระดับชั้น เกรดเฉลี่ย รายได้ครอบครัว และสาขาที่สนใจ ใช้เวลาไม่เกิน 3 นาที</p>
           </div>
-          <div class="form-group">
-            <label>ระดับชั้นปัจจุบัน <span class="req">*</span></label>
-            <select id="grade" required>
-              <option value="">-- เลือกระดับชั้น --</option>
-              <option value="m3">มัธยมศึกษาปีที่ 3 (ม.3)</option>
-              <option value="m6">มัธยมศึกษาปีที่ 6 (ม.6)</option>
-              <option value="vocational">ปวช./ปวส. (อาชีวศึกษา)</option>
-            </select>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-icon">🤖</div>
+            <div class="step-num">02</div>
+            <h3>ระบบประมวลผลจับคู่</h3>
+            <p>ระบบเปรียบเทียบคุณสมบัติกับเงื่อนไขของทุนทั้งหมด คัดเลือก 3 ทุนที่มีโอกาสได้สูงสุด</p>
           </div>
-          <div class="form-group">
-            <label>เกรดเฉลี่ยสะสม (GPA) <span class="req">*</span></label>
-            <div class="gpa-input">
-              <input type="number" id="gpa" min="1.00" max="4.00" step="0.01" placeholder="เช่น 3.25" required />
-              <span class="gpa-unit">/ 4.00</span>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-icon">🚀</div>
+            <div class="step-num">03</div>
+            <h3>รับแผนสมัครทันที</h3>
+            <p>ดูเอกสารที่ต้องเตรียม กดลิงก์สมัครได้ทันที พร้อมระบบแจ้งเตือนก่อนหมดเขต 7 วัน</p>
+          </div>
+        </div>
+        <div class="how-cta">
+          <button class="btn-hero" onclick="navigateTo('finder')">ไปที่หน้าค้นหาทุนเลย →</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PAGE 3: FINDER FORM -->
+  <div class="page-view" id="page-finder">
+    <section class="finder">
+      <div class="section-inner">
+        <div class="section-label">เริ่มค้นหาทุน</div>
+        <h2>กรอกข้อมูลของคุณ</h2>
+        <p class="finder-sub">ข้อมูลของคุณจะถูกใช้เพื่อจับคู่ทุนที่ตรงตามเงื่อนไขและเหมาะสมที่สุดเท่านั้น</p>
+
+        <form class="finder-form" id="scholarForm">
+          <!-- STEP 1 -->
+          <div class="form-step active" data-step="1">
+            <div class="step-header">
+              <div class="step-pill">ขั้นที่ 1 จาก 3 — ข้อมูลการศึกษา</div>
             </div>
-            <div class="gpa-bar-wrap"><div class="gpa-bar" id="gpaBar"></div></div>
-          </div>
-          <div class="form-group">
-            <label>ภูมิลำเนา / จังหวัด <span class="req">*</span></label>
-            <select id="province" required>
-              <option value="">-- เลือกจังหวัด --</option>
-              <optgroup label="ชายแดนใต้">
-                <option value="pattani">ปัตตานี</option>
-                <option value="yala">ยะลา</option>
-                <option value="narathiwat">นราธิวาส</option>
-                <option value="satun">สตูล</option>
-                <option value="songkhla">สงขลา (บางอำเภอ)</option>
-              </optgroup>
-              <optgroup label="ภาคใต้อื่นๆ">
-                <option value="hatyai">สงขลา (หาดใหญ่)</option>
-                <option value="trang">ตรัง</option>
-                <option value="krabi">กระบี่</option>
-                <option value="suratthani">สุราษฎร์ธานี</option>
-              </optgroup>
-              <optgroup label="ภาคอื่นๆ">
-                <option value="bangkok">กรุงเทพฯ</option>
-                <option value="chiangmai">เชียงใหม่</option>
-                <option value="other">จังหวัดอื่นๆ</option>
-              </optgroup>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>ศาสนา (ใช้สำหรับทุนบางประเภท)</label>
-            <select id="religion">
-              <option value="">-- ไม่ระบุ --</option>
-              <option value="buddhist">พุทธ</option>
-              <option value="muslim">อิสลาม</option>
-              <option value="christian">คริสต์</option>
-              <option value="other">อื่นๆ</option>
-            </select>
-          </div>
-        </div>
-        <button type="button" class="btn-next" onclick="nextStep(2)">ถัดไป →</button>
-      </div>
-
-      <!-- STEP 2 -->
-      <div class="form-step" data-step="2">
-        <div class="step-header">
-          <div class="step-pill">ขั้นที่ 2 จาก 3 — ฐานะและครอบครัว</div>
-        </div>
-        <div class="form-grid">
-          <div class="form-group full">
-            <label>รายได้ครัวเรือนต่อปี (รวมทุกคนในบ้าน) <span class="req">*</span></label>
-            <div class="income-options" id="incomeOptions">
-              <div class="income-opt" data-val="under40000" onclick="selectIncome(this)">
-                <span class="income-icon">🏠</span>
-                <span class="income-label">ต่ำกว่า 40,000 บาท/ปี<br/><small>ยากจนพิเศษ</small></span>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label>ชื่อ (ไม่บังคับ)</label>
+                <input type="text" id="name" placeholder="เช่น สมหวัง ใจดี" />
               </div>
-              <div class="income-opt" data-val="40000-100000" onclick="selectIncome(this)">
-                <span class="income-icon">🏡</span>
-                <span class="income-label">40,001 – 100,000 บาท/ปี<br/><small>ยากจน</small></span>
+              <div class="form-group">
+                <label>ระดับชั้นปัจจุบัน <span class="req">*</span></label>
+                <select id="grade" required>
+                  <option value="">-- เลือกระดับชั้น --</option>
+                  <option value="m3">มัธยมศึกษาปีที่ 3 (ม.3)</option>
+                  <option value="m6">มัธยมศึกษาปีที่ 6 (ม.6)</option>
+                  <option value="vocational">ปวช./ปวส. (อาชีวศึกษา)</option>
+                </select>
               </div>
-              <div class="income-opt" data-val="100000-300000" onclick="selectIncome(this)">
-                <span class="income-icon">🏘️</span>
-                <span class="income-label">100,001 – 300,000 บาท/ปี<br/><small>รายได้น้อย</small></span>
+              <div class="form-group">
+                <label>เกรดเฉลี่ยสะสม (GPA) <span class="req">*</span></label>
+                <div class="gpa-input">
+                  <input type="number" id="gpa" min="1.00" max="4.00" step="0.01" placeholder="เช่น 3.25" required />
+                  <span class="gpa-unit">/ 4.00</span>
+                </div>
+                <div class="gpa-bar-wrap"><div class="gpa-bar" id="gpaBar"></div></div>
               </div>
-              <div class="income-opt" data-val="over300000" onclick="selectIncome(this)">
-                <span class="income-icon">🏢</span>
-                <span class="income-label">มากกว่า 300,000 บาท/ปี<br/><small>รายได้ปานกลาง</small></span>
+              <div class="form-group">
+                <label>ภูมิลำเนา / จังหวัด <span class="req">*</span></label>
+                <select id="province" required>
+                  <option value="">-- เลือกจังหวัด --</option>
+                  <optgroup label="ชายแดนใต้">
+                    <option value="pattani">ปัตตานี</option>
+                    <option value="yala">ยะลา</option>
+                    <option value="narathiwat">นราธิวาส</option>
+                    <option value="satun">สตูล</option>
+                    <option value="songkhla">สงขลา (บางอำเภอ)</option>
+                  </optgroup>
+                  <optgroup label="ภาคใต้อื่นๆ">
+                    <option value="hatyai">สงขลา (หาดใหญ่)</option>
+                    <option value="trang">ตรัง</option>
+                    <option value="krabi">กระบี่</option>
+                    <option value="suratthani">สุราษฎร์ธานี</option>
+                  </optgroup>
+                  <optgroup label="ภาคอื่นๆ">
+                    <option value="bangkok">กรุงเทพฯ</option>
+                    <option value="chiangmai">เชียงใหม่</option>
+                    <option value="other">จังหวัดอื่นๆ</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>ศาสนา (ใช้สำหรับทุนบางประเภท)</label>
+                <select id="religion">
+                  <option value="">-- ไม่ระบุ --</option>
+                  <option value="buddhist">พุทธ</option>
+                  <option value="muslim">อิสลาม</option>
+                  <option value="christian">คริสต์</option>
+                  <option value="other">อื่นๆ</option>
+                </select>
               </div>
             </div>
-            <input type="hidden" id="income" />
-          </div>
-          <div class="form-group full">
-            <label>สถานการณ์พิเศษของครอบครัว (เลือกได้หลายข้อ)</label>
-            <div class="checkbox-group">
-              <label class="cb-label"><input type="checkbox" id="cb_orphan" /> เด็กกำพร้า / พ่อแม่เสียชีวิต</label>
-              <label class="cb-label"><input type="checkbox" id="cb_disabled" /> มีสมาชิกพิการในครอบครัว</label>
-              <label class="cb-label"><input type="checkbox" id="cb_single" /> ครอบครัวเลี้ยงเดี่ยว</label>
-              <label class="cb-label"><input type="checkbox" id="cb_ews" /> มีบัตรสวัสดิการแห่งรัฐ</label>
-              <label class="cb-label"><input type="checkbox" id="cb_border" /> อาศัยอยู่ในพื้นที่ชายแดน</label>
+            <div class="btn-row right-align">
+              <button type="button" class="btn-next" onclick="nextStep(2)">ถัดไป →</button>
             </div>
           </div>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn-back" onclick="nextStep(1)">← ย้อนกลับ</button>
-          <button type="button" class="btn-next" onclick="nextStep(3)">ถัดไป →</button>
-        </div>
-      </div>
 
-      <!-- STEP 3 -->
-      <div class="form-step" data-step="3">
-        <div class="step-header">
-          <div class="step-pill">ขั้นที่ 3 จาก 3 — ความสนใจและเป้าหมาย</div>
-        </div>
-        <div class="form-grid">
-          <div class="form-group full">
-            <label>สาขาที่สนใจเรียนต่อ <span class="req">*</span> (เลือกได้หลายข้อ)</label>
-            <div class="interest-grid" id="interestGrid">
-              <div class="interest-chip" data-val="science" onclick="toggleInterest(this)">🔬 วิทยาศาสตร์</div>
-              <div class="interest-chip" data-val="medical" onclick="toggleInterest(this)">🏥 แพทย์/พยาบาล</div>
-              <div class="interest-chip" data-val="engineering" onclick="toggleInterest(this)">⚙️ วิศวกรรม</div>
-              <div class="interest-chip" data-val="it" onclick="toggleInterest(this)">💻 เทคโนโลยี/IT</div>
-              <div class="interest-chip" data-val="education" onclick="toggleInterest(this)">📚 ครู/การศึกษา</div>
-              <div class="interest-chip" data-val="agriculture" onclick="toggleInterest(this)">🌾 เกษตร/อาหาร</div>
-              <div class="interest-chip" data-val="business" onclick="toggleInterest(this)">💼 บริหาร/การค้า</div>
-              <div class="interest-chip" data-val="art" onclick="toggleInterest(this)">🎨 ศิลปะ/ออกแบบ</div>
-              <div class="interest-chip" data-val="vocational" onclick="toggleInterest(this)">🔧 อาชีวะ/ช่างกล</div>
-              <div class="interest-chip" data-val="law" onclick="toggleInterest(this)">⚖️ นิติศาสตร์</div>
-              <div class="interest-chip" data-val="islamic" onclick="toggleInterest(this)">🌙 ศาสนาอิสลาม</div>
-              <div class="interest-chip" data-val="language" onclick="toggleInterest(this)">🗣️ ภาษา/ต่างประเทศ</div>
+          <!-- STEP 2 -->
+          <div class="form-step" data-step="2">
+            <div class="step-header">
+              <div class="step-pill">ขั้นที่ 2 จาก 3 — ฐานะและครอบครัว</div>
             </div>
-          </div>
-          <div class="form-group full">
-            <label>ต้องการเรียนที่ไหน?</label>
-            <div class="destination-options" id="destOptions">
-              <div class="dest-opt" data-val="local" onclick="selectDest(this)">
-                <span>🏫</span><span>ในพื้นที่ / จังหวัดเดิม</span>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label>รายได้ครัวเรือนต่อปี (รวมทุกคนในบ้าน) <span class="req">*</span></label>
+                <div class="income-options" id="incomeOptions">
+                  <div class="income-opt" data-val="under40000" onclick="selectIncome(this)">
+                    <span class="income-icon">🏠</span>
+                    <span class="income-label">ต่ำกว่า 40,000 บาท/ปี<br/><small>ยากจนพิเศษ</small></span>
+                  </div>
+                  <div class="income-opt" data-val="40000-100000" onclick="selectIncome(this)">
+                    <span class="income-icon">🏡</span>
+                    <span class="income-label">40,001 – 100,000 บาท/ปี<br/><small>ยากจน</small></span>
+                  </div>
+                  <div class="income-opt" data-val="100000-300000" onclick="selectIncome(this)">
+                    <span class="income-icon">🏘️</span>
+                    <span class="income-label">100,001 – 300,000 บาท/ปี<br/><small>รายได้น้อย</small></span>
+                  </div>
+                  <div class="income-opt" data-val="over300000" onclick="selectIncome(this)">
+                    <span class="income-icon">🏢</span>
+                    <span class="income-label">มากกว่า 300,000 บาท/ปี<br/><small>รายได้ปานกลาง</small></span>
+                  </div>
+                </div>
+                <input type="hidden" id="income" />
               </div>
-              <div class="dest-opt" data-val="thailand" onclick="selectDest(this)">
-                <span>🇹🇭</span><span>ในประเทศไทย (ต่างจังหวัด)</span>
-              </div>
-              <div class="dest-opt" data-val="abroad" onclick="selectDest(this)">
-                <span>🌏</span><span>ต่างประเทศ (มาเลเซีย/อื่นๆ)</span>
-              </div>
-              <div class="dest-opt" data-val="any" onclick="selectDest(this)">
-                <span>🔓</span><span>ไม่จำกัด ทุกที่ก็ได้</span>
+              <div class="form-group full">
+                <label>สถานการณ์พิเศษของครอบครัว (เลือกได้หลายข้อ)</label>
+                <div class="checkbox-group">
+                  <label class="cb-label"><input type="checkbox" id="cb_orphan" /> เด็กกำพร้า / พ่อแม่เสียชีวิต</label>
+                  <label class="cb-label"><input type="checkbox" id="cb_disabled" /> มีสมาชิกพิการในครอบครัว</label>
+                  <label class="cb-label"><input type="checkbox" id="cb_single" /> ครอบครัวเลี้ยงเดี่ยว</label>
+                  <label class="cb-label"><input type="checkbox" id="cb_ews" /> มีบัตรสวัสดิการแห่งรัฐ</label>
+                  <label class="cb-label"><input type="checkbox" id="cb_border" /> อาศัยอยู่ในพื้นที่ชายแดน</label>
+                </div>
               </div>
             </div>
-            <input type="hidden" id="destination" />
+            <div class="btn-row">
+              <button type="button" class="btn-back" onclick="nextStep(1)">← ย้อนกลับ</button>
+              <button type="button" class="btn-next" onclick="nextStep(3)">ถัดไป →</button>
+            </div>
           </div>
-          <div class="form-group full">
-            <label>อีเมล (สำหรับรับการแจ้งเตือนก่อนหมดเขต)</label>
-            <input type="email" id="email" placeholder="example@email.com" />
+
+          <!-- STEP 3 -->
+          <div class="form-step" data-step="3">
+            <div class="step-header">
+              <div class="step-pill">ขั้นที่ 3 จาก 3 — ความสนใจและเป้าหมาย</div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label>สาขาที่สนใจเรียนต่อ <span class="req">*</span> (เลือกได้หลายข้อ)</label>
+                <div class="interest-grid" id="interestGrid">
+                  <div class="interest-chip" data-val="science" onclick="toggleInterest(this)">🔬 วิทยาศาสตร์</div>
+                  <div class="interest-chip" data-val="medical" onclick="toggleInterest(this)">🏥 แพทย์/พยาบาล</div>
+                  <div class="interest-chip" data-val="engineering" onclick="toggleInterest(this)">⚙️ วิศวกรรม</div>
+                  <div class="interest-chip" data-val="it" onclick="toggleInterest(this)">💻 เทคโนโลยี/IT</div>
+                  <div class="interest-chip" data-val="education" onclick="toggleInterest(this)">📚 ครู/การศึกษา</div>
+                  <div class="interest-chip" data-val="agriculture" onclick="toggleInterest(this)">🌾 เกษตร/อาหาร</div>
+                  <div class="interest-chip" data-val="business" onclick="toggleInterest(this)">💼 บริหาร/การค้า</div>
+                  <div class="interest-chip" data-val="art" onclick="toggleInterest(this)">🎨 ศิลปะ/ออกแบบ</div>
+                  <div class="interest-chip" data-val="vocational" onclick="toggleInterest(this)">🔧 อาชีวะ/ช่างกล</div>
+                  <div class="interest-chip" data-val="law" onclick="toggleInterest(this)">⚖️ นิติศาสตร์</div>
+                  <div class="interest-chip" data-val="islamic" onclick="toggleInterest(this)">🌙 ศาสนาอิสลาม</div>
+                  <div class="interest-chip" data-val="language" onclick="toggleInterest(this)">🗣️ ภาษา/ต่างประเทศ</div>
+                </div>
+              </div>
+              <div class="form-group full">
+                <label>ต้องการเรียนที่ไหน?</label>
+                <div class="destination-options" id="destOptions">
+                  <div class="dest-opt" data-val="local" onclick="selectDest(this)">
+                    <span>🏫</span><span>ในพื้นที่ / จังหวัดเดิม</span>
+                  </div>
+                  <div class="dest-opt" data-val="thailand" onclick="selectDest(this)">
+                    <span>🇹🇭</span><span>ในประเทศไทย (ต่างจังหวัด)</span>
+                  </div>
+                  <div class="dest-opt" data-val="abroad" onclick="selectDest(this)">
+                    <span>🌏</span><span>ต่างประเทศ (มาเลเซีย/อื่นๆ)</span>
+                  </div>
+                  <div class="dest-opt" data-val="any" onclick="selectDest(this)">
+                    <span>🔓</span><span>ไม่จำกัด ทุกที่ก็ได้</span>
+                  </div>
+                </div>
+                <input type="hidden" id="destination" />
+              </div>
+              <div class="form-group full">
+                <label>อีเมล (สำหรับรับการแจ้งเตือนก่อนหมดเขต 7 วัน)</label>
+                <input type="email" id="email" placeholder="example@email.com" />
+              </div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn-back" onclick="nextStep(2)">← ย้อนกลับ</button>
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <span id="submitText">🔍 วิเคราะห์และจับคู่ทุน</span>
+                <span id="submitLoader" class="loader" style="display:none"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PROGRESS BAR -->
+          <div class="form-progress">
+            <div class="progress-dot active" id="dot1" onclick="jumpStep(1)"></div>
+            <div class="progress-line" id="line1"></div>
+            <div class="progress-dot" id="dot2" onclick="jumpStep(2)"></div>
+            <div class="progress-line" id="line2"></div>
+            <div class="progress-dot" id="dot3" onclick="jumpStep(3)"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <!-- PAGE 4: RESULTS -->
+  <div class="page-view" id="page-results">
+    <section class="results">
+      <div class="section-inner">
+        <div class="result-header">
+          <div class="ai-thinking-done">✅ ประมวลผลจับคู่เรียบร้อย</div>
+          <h2>ทุนการศึกษาที่เหมาะกับ<span id="resultName" class="accent"> คุณ</span></h2>
+          <p id="resultSummary" class="result-sub"></p>
+        </div>
+
+        <div class="scholarship-cards" id="scholarshipCards"></div>
+
+        <div class="checklist-section" id="checklistSection" style="display:none">
+          <h3>📋 เช็กลิสต์เอกสารที่ต้องเตรียม</h3>
+          <div class="checklist" id="checklistItems"></div>
+        </div>
+
+        <div class="reminder-section">
+          <div class="reminder-card">
+            <div class="reminder-icon">🔔</div>
+            <div class="reminder-info">
+              <h4>ตั้งการแจ้งเตือนก่อนหมดเขต 7 วัน</h4>
+              <p>ระบบจะส่งการแจ้งเตือนให้คุณก่อนหมดเขตรับสมัครทุนที่ตรงเงื่อนไข</p>
+            </div>
+            <button class="btn-remind" id="remindBtn" onclick="setReminder()">ตั้งเตือนเลย 🔔</button>
           </div>
         </div>
-        <div class="btn-row">
-          <button type="button" class="btn-back" onclick="nextStep(2)">← ย้อนกลับ</button>
-          <button type="submit" class="btn-submit" id="submitBtn">
-            <span id="submitText">🔍 ค้นหาทุนที่ใช่สำหรับฉัน</span>
-            <span id="submitLoader" class="loader" style="display:none"></span>
-          </button>
+
+        <div class="restart-row">
+          <button class="btn-restart" onclick="restart()">← ค้นหาใหม่อีกครั้ง</button>
+          <button class="btn-detail" onclick="navigateTo('database')">ดูฐานข้อมูลทุนทั้งหมด 📚</button>
         </div>
       </div>
+    </section>
+  </div>
 
-      <!-- PROGRESS BAR -->
-      <div class="form-progress">
-        <div class="progress-dot active" id="dot1" onclick="jumpStep(1)"></div>
-        <div class="progress-line" id="line1"></div>
-        <div class="progress-dot" id="dot2" onclick="jumpStep(2)"></div>
-        <div class="progress-line" id="line2"></div>
-        <div class="progress-dot" id="dot3" onclick="jumpStep(3)"></div>
+  <!-- PAGE 5: DATABASE -->
+  <div class="page-view" id="page-database">
+    <section class="db-section">
+      <div class="section-inner">
+        <div class="section-label">ฐานข้อมูลทุน</div>
+        <h2>ประกาศทุนการศึกษาทั้งหมดในระบบ</h2>
+        <p style="color:#C7D2FE; margin-bottom: 24px;">คลิกที่การ์ดเพื่อดูเงื่อนไข รายละเอียด และเอกสารที่ต้องใช้ในการสมัคร</p>
+        <div class="db-grid" id="dbGrid"></div>
       </div>
-    </form>
+    </section>
   </div>
-</section>
 
-<!-- ===== RESULTS ===== -->
-<section class="results" id="results" style="display:none">
-  <div class="section-inner">
-    <div class="result-header">
-      <div class="ai-thinking-done">✅ AI วิเคราะห์เสร็จแล้ว</div>
-      <h2>ทุนการศึกษาที่เหมาะกับ<span id="resultName" class="accent"> คุณ</span></h2>
-      <p id="resultSummary" class="result-sub"></p>
-    </div>
-
-    <div class="scholarship-cards" id="scholarshipCards"></div>
-
-    <div class="checklist-section" id="checklistSection" style="display:none">
-      <h3>📋 เช็กลิสต์เอกสารที่ต้องเตรียม</h3>
-      <div class="checklist" id="checklistItems"></div>
-    </div>
-
-    <div class="reminder-section">
-      <div class="reminder-card">
-        <div class="reminder-icon">🔔</div>
-        <div class="reminder-info">
-          <h4>ตั้งการแจ้งเตือนก่อนหมดเขต 7 วัน</h4>
-          <p>ระบบจะส่งอีเมลเตือนให้คุณก่อนหมดเขตสมัครทุกทุน</p>
-        </div>
-        <button class="btn-remind" id="remindBtn" onclick="setReminder()">ตั้งเตือนเลย 🔔</button>
-      </div>
-    </div>
-
-    <div class="restart-row">
-      <button class="btn-restart" onclick="restart()">← ค้นหาใหม่</button>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SCHOLARSHIP DATABASE ===== -->
-<section class="db-section" id="scholarships">
-  <div class="section-inner">
-    <div class="section-label">ฐานข้อมูลทุน</div>
-    <h2>ทุนการศึกษาในระบบ</h2>
-    <div class="db-grid" id="dbGrid"></div>
-  </div>
-</section>
+</main>
 
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
