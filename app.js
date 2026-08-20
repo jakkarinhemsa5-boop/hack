@@ -360,7 +360,7 @@ function handleSubmit(e) {
 
     // ส่ง Webhook ไปที่ n8n ทันทีที่ค้นหา
     try {
-      const n8nUrl = 'https://jxqq.app.n8n.cloud/webhook-test/1bf516fb-df66-4f36-b520-6986e6354708';
+      const n8nUrl = 'https://jxqq.app.n8n.cloud/webhook/1bf516fb-df66-4f36-b520-6986e6354708';
       await fetch(n8nUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -621,8 +621,8 @@ async function setReminder() {
   btn.disabled = true;
   btn.textContent = '⏳ กำลังส่งคำขอไปที่ n8n...';
 
-  // URL n8n Webhook ของคุณ
-  const n8nWebhookUrl = 'https://jxqq.app.n8n.cloud/webhook-test/1bf516fb-df66-4f36-b520-6986e6354708';
+  // URL n8n Webhook ของคุณ (Production URL)
+  const n8nWebhookUrl = 'https://jxqq.app.n8n.cloud/webhook/1bf516fb-df66-4f36-b520-6986e6354708';
 
   const payload = {
     event: 'scholarship_deadline_reminder',
