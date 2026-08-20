@@ -89,7 +89,7 @@ function sendReminderToN8n(email, scholarshipName, deadlineDate) {
   try {
     if (!email) return { success: false, message: 'ไม่มีอีเมล' };
 
-    const n8nWebhookUrl = 'https://jxqq.app.n8n.cloud/webhook-test/1bf516fb-df66-4f36-b520-6986e6354708';
+    const n8nWebhookUrl = 'https://jxqq.app.n8n.cloud/webhook/1bf516fb-df66-4f36-b520-6986e6354708';
     
     const payload = {
       event: 'scholarship_deadline_reminder',
